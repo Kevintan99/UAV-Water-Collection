@@ -1,4 +1,4 @@
-<mujoco model="CF2 River Scene with Tracking Camera">
+<mujoco model="CF2 River Scene">
   <include file="obstacles.xml" />
   <include file="cf2_with_pendulum.xml" />
   <statistic center="0 0 0.1" extent="0.2" meansize=".05" />
@@ -59,12 +59,6 @@
               texrepeat="4 4" 
               reflectance="0.1" 
               rgba="0.4 0.3 0.2 1.0" />
-
-    <!-- NEW: Pendulum cable material for better visibility -->
-    <material name="cable_material" rgba="0.1 0.1 0.1 1.0" />
-    
-    <!-- NEW: Bucket material for detection -->
-    <material name="bucket_material" rgba="0.8 0.8 0.8 1.0" />
   </asset>
   
   <worldbody>
@@ -75,10 +69,6 @@
     <!-- Additional ambient lighting to simulate sky reflection -->
     <light pos="2 2 1.5" dir="-0.5 -0.5 -1" directional="false" 
            diffuse="0.3 0.4 0.5" specular="0.2 0.3 0.4" />
-    
-    <!-- NEW: Lighting for better pendulum visibility -->
-    <light pos="1 1 1.0" dir="-0.3 -0.3 -1" directional="false"
-           diffuse="0.4 0.4 0.4" specular="0.2 0.2 0.2" />
     
     <!-- Main water surface - NO COLLISION -->
     <geom name="water_surface" size="0 0 0.02" type="plane" 
@@ -132,67 +122,5 @@
           fromto="0.8 -1.8 -0.06  0.8 -1.8 0.35" 
           rgba="0.3 0.7 0.4 0.6" 
           contype="0" conaffinity="0" />
-
-    <!-- NEW: Camera mount for tracking pendulum -->
-    <body name="camera_mount" pos="1.5 -1.0 1.2">
-      <!-- Optional: visible camera body for visualization -->
-      <geom name="camera_body" type="box" size="0.05 0.03 0.02" 
-            rgba="0.2 0.2 0.2 0.8" contype="0" conaffinity="0" />
-      
-      <!-- Third-person tracking camera -->
-      <camera name="tracking_camera" 
-              pos="0 0 0" 
-              xyaxes="0.866 -0.5 0  0.5 0.866 0"
-              fovy="45">
-        <!-- Camera looking towards the expected pendulum area -->
-        <!-- Position: 1.5m forward, 1.0m left, 1.2m high -->
-        <!-- Looking towards (0.5, 0.5, 0.4) - expected drone/pendulum area -->
-      </camera>
-    </body>
-
-    <!-- NEW: Alternative fixed tracking camera (looking down at pendulum area) -->
-    <body name="overhead_camera_mount" pos="0.5 0.5 1.8">
-      <geom name="overhead_camera_body" type="box" size="0.04 0.04 0.02" 
-            rgba="0.3 0.3 0.3 0.8" contype="0" conaffinity="0" />
-      
-      <camera name="overhead_tracking_camera" 
-              pos="0 0 0" 
-              xyaxes="1 0 0  0 0 -1"
-              fovy="60">
-        <!-- Overhead view for better pendulum swing visualization -->
-      </camera>
-    </body>
-
-    <!-- NEW: Side view tracking camera for alpha swing measurement -->
-    <body name="side_camera_mount" pos="2.0 0.5 0.6">
-      <geom name="side_camera_body" type="box" size="0.04 0.02 0.04" 
-            rgba="0.4 0.4 0.4 0.8" contype="0" conaffinity="0" />
-      
-      <camera name="side_tracking_camera" 
-              pos="0 0 0" 
-              xyaxes="0 0 -1  0 1 0"
-              fovy="50">
-        <!-- Side view for measuring x-z plane swing (alpha angle) -->
-      </camera>
-    </body>
-
-    <!-- NEW: Reference markers for vision system calibration -->
-    <body name="reference_markers">
-      <!-- Gravity reference marker (always pointing down) -->
-      <geom name="gravity_ref" type="capsule" size="0.005" 
-            fromto="0.5 0.5 0.8  0.5 0.5 0.7" 
-            rgba="1.0 0.0 0.0 0.8" 
-            contype="0" conaffinity="0" />
-      
-      <!-- Horizontal reference markers -->
-      <geom name="horizontal_ref_x" type="capsule" size="0.003" 
-            fromto="0.4 0.5 0.75  0.6 0.5 0.75" 
-            rgba="0.0 1.0 0.0 0.6" 
-            contype="0" conaffinity="0" />
-      <geom name="horizontal_ref_y" type="capsule" size="0.003" 
-            fromto="0.5 0.4 0.75  0.5 0.6 0.75" 
-            rgba="0.0 0.0 1.0 0.6" 
-            contype="0" conaffinity="0" />
-    </body>
   </worldbody>
 </mujoco>

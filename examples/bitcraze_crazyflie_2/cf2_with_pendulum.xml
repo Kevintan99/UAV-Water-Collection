@@ -29,6 +29,11 @@
     <material name="white" rgba="1 1 1 1"/>
     <material name="body_frame_plastic" rgba="0.102 0.102 0.102 1"/>
     <material name="burnished_chrome" rgba="0.898 0.898 0.898 1"/>
+    
+    <!-- Bucket materials -->
+    <material name="bucket_blue" rgba="0.2 0.4 0.8 0.9"/>
+    <material name="bucket_rim" rgba="0.15 0.35 0.75 1"/>
+    <material name="bucket_handle" rgba="0.6 0.6 0.6 1"/>
 
     <mesh file="cf2_0.obj"/>
     <mesh file="cf2_1.obj"/>
@@ -122,6 +127,96 @@
       <site name="imu"/>
       <site name="actuation"/>
 
+      <!-- ===== BEGIN BUCKET LOAD ===== -->
+      <body name="bucket_hanger" pos="0 0 0">
+        <!-- First hinge: alpha (swing in x-z), about Y axis -->
+        <joint name="pendulum_alpha" type="hinge" axis="0 1 0"
+               limited="false" damping="0" stiffness="0"/>
+        <!-- Second hinge: beta (swing in y-z), about X axis -->
+        <joint name="pendulum_beta" type="hinge" axis="1 0 0"
+               limited="false" damping="0" stiffness="0"/>
+        <!-- give it some mass & inertia -->
+        <inertial pos="0 0 0" mass="1.0"
+                  diaginertia="0.001 0.001 0.0001"/>
+        <!-- a thin rod connecting to bucket handle -->
+        <geom name="pendulum_rod" type="capsule"
+              fromto="0 0 0   0 0 -0.165" size="0.003"
+              rgba="0.7 0.2 0.2 1"/>
+        
+        <!-- Bucket construction -->
+        <body name="bucket" pos="0 0 -0.25">
+          <!-- Main bucket mass and inertia -->
+          <inertial pos="0 0 -0.015" mass="0.5"
+                    diaginertia="0.0012 0.0012 0.0006"/>
+          
+          <!-- Bucket bottom -->
+          <geom name="bucket_bottom" type="cylinder" 
+                pos="0 0 -0.0195" size="0.0195 0.0015"
+                material="bucket_blue"/>
+          
+          <!-- Bucket walls (using multiple cylinders to create hollow effect) -->
+          <!-- Outer wall -->
+          <geom name="bucket_wall_outer" type="cylinder" 
+                pos="0 0 -0.0105" size="0.021 0.0105"
+                material="bucket_blue"/>
+          
+          <!-- Inner hollow space (invisible, for physics) -->
+          <geom name="bucket_wall_inner" type="cylinder" 
+                pos="0 0 -0.0075" size="0.018 0.0075"
+                material="bucket_blue" group="0" contype="0" conaffinity="0"/>
+          
+          <!-- Bucket rim -->
+          <geom name="bucket_rim" type="cylinder" 
+                pos="0 0 0.003" size="0.0225 0.003"
+                material="bucket_rim"/>
+          
+          <!-- Handle attachment points -->
+          <geom name="handle_attach1" type="sphere" 
+                pos="0.021 0 0" size="0.003"
+                material="bucket_handle"/>
+          <geom name="handle_attach2" type="sphere" 
+                pos="-0.021 0 0" size="0.003"
+                material="bucket_handle"/>
+          
+          <!-- Handle (wire-frame style using capsules) -->
+          <!-- Connection point from pendulum rod to handle -->
+          <geom name="rod_to_handle_connector" type="capsule"
+                fromto="0 0 0.027  0 0 0.175" size="0.003"
+                rgba="0.7 0.2 0.2 1"/>
+          
+          <!-- Main handle arc (approximated with multiple segments) -->
+          <geom name="handle_seg1" type="capsule"
+                fromto="0.021 0 0.0045  0.015 0 0.0255" size="0.0012"
+                material="bucket_handle"/>
+          <geom name="handle_seg2" type="capsule"
+                fromto="0.015 0 0.0255  0.0075 0 0.030" size="0.0012"
+                material="bucket_handle"/>
+          <geom name="handle_seg3" type="capsule"
+                fromto="0.0075 0 0.030  -0.0075 0 0.030" size="0.0012"
+                material="bucket_handle"/>
+          <geom name="handle_seg4" type="capsule"
+                fromto="-0.0075 0 0.030  -0.015 0 0.0255" size="0.0012"
+                material="bucket_handle"/>
+          <geom name="handle_seg5" type="capsule"
+                fromto="-0.015 0 0.0255  -0.021 0 0.0045" size="0.0012"
+                material="bucket_handle"/>
+          
+          <!-- Handle grip (horizontal bar) - this is where the rod connects -->
+          <geom name="handle_grip" type="capsule"
+                fromto="-0.0105 0 0.027  0.0105 0 0.027" size="0.0015"
+                material="bucket_handle"/>
+          
+          <!-- Optional: Add some visual detail lines on the bucket -->
+          <geom name="bucket_detail1" type="capsule"
+                fromto="0.012 0 -0.0075  -0.012 0 -0.0075" size="0.00045"
+                rgba="0.15 0.3 0.6 0.8"/>
+          <geom name="bucket_detail2" type="capsule"
+                fromto="0 0.012 -0.0075  0 -0.012 -0.0075" size="0.00045"
+                rgba="0.15 0.3 0.6 0.8"/>
+        </body>
+      </body>
+      <!-- ===== END BUCKET LOAD ===== -->
+      
     </body>
   </worldbody>
 
@@ -139,6 +234,7 @@
   </sensor>
 
   <keyframe>
-    <key name="hover" qpos="0 0 0.1 1 0 0 0" ctrl="0.26487 0 0 0"/>
+    <key name="hover" qpos="0 0 0.1 1 0 0 0 0 0" ctrl="0.26487 0 0 0"/>
   </keyframe>
 </mujoco>
+

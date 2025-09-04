@@ -1,0 +1,26 @@
+Waypoint Sequence with Target Types:
+--------------------------------------------------
+
+1. Above Water:
+   Target Type: DRONE
+   Target Position: (0.50, 0.50, 0.80)
+   Drone Achieved: (0.415, 0.416, 0.807)
+   Bucket Achieved: (0.416, 0.417, 0.557)
+
+2. Water Target:
+   Target Type: BUCKET
+   Target Position: (0.50, 0.50, 0.00)
+   Drone Achieved: (0.491, 0.493, 0.278)
+   Bucket Achieved: (0.492, 0.493, 0.028)
+
+3. Above Water (Return):
+   Target Type: DRONE
+   Target Position: (0.50, 0.50, 0.80)
+   Drone Achieved: (0.501, 0.498, 0.786)
+   Bucket Achieved: (0.501, 0.498, 0.536)
+
+4. Lift Target:
+   Target Type: BUCKET
+   Target Position: (0.80, 0.30, 0.30)
+   Drone Achieved: (0.791, 0.319, 0.558)
+   Bucket Achieved: (0.791, 0.319, 0.308)

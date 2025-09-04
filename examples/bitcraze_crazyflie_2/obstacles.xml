@@ -1,24 +1,107 @@
 <mujoco model="obstacles">
+   <asset>
+      <!-- Water collection marker materials -->
+      <material name="water_marker_center" rgba="0.0 0.8 1.0 1.0"/>      <!-- Cyan for water level -->
+      <material name="water_marker_ring" rgba="0.0 0.6 0.8 0.8"/>
+      <material name="water_marker_cross" rgba="0.0 0.4 0.6 1.0"/>
+      <material name="water_marker_glow" rgba="0.0 0.8 1.0 0.3"/>
+      
+      <!-- Lift marker materials -->
+      <material name="lift_marker_center" rgba="1.0 0.8 0.0 1.0"/>        <!-- Gold for lift position -->
+      <material name="lift_marker_ring" rgba="0.8 0.6 0.0 0.8"/>
+      <material name="lift_marker_cross" rgba="0.6 0.4 0.0 1.0"/>
+      <material name="lift_marker_glow" rgba="1.0 0.8 0.0 0.3"/>
+   </asset>
+   
    <worldbody>
       <body name="obstacles">
-  </body>
-      <body name="obstacle 1">
-         <geom size="0.05" type="sphere" rgba="1 0.1 0.2 1" pos="0.239 -0.25 0.064" />
       </body>
-      <body name="obstacle 2">
-         <geom size="0.05" type="sphere" rgba="1 0.1 0.2 1" pos="-0.182 0.373 0.089" />
+      
+      <!-- ===== WATER COLLECTION MARKER (Phase 1) ===== -->
+      <body name="water_marker" pos="0.5 0.5 0.0">
+         <!-- Center sphere - at water surface -->
+         <geom name="water_center_sphere" type="sphere" size="0.025"
+               material="water_marker_center" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Outer ring - floating on water surface -->
+         <geom name="water_ring_outer" type="cylinder" size="0.06 0.003"
+               material="water_marker_ring" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Cross bars - floating above water -->
+         <geom name="water_cross_x" type="capsule" 
+               fromto="-0.08 0 0  0.08 0 0" size="0.005"
+               material="water_marker_cross" group="2" contype="0" conaffinity="0"/>
+         <geom name="water_cross_y" type="capsule" 
+               fromto="0 -0.08 0  0 0.08 0" size="0.005"
+               material="water_marker_cross" group="2" contype="0" conaffinity="0"/>
+         <geom name="water_cross_z" type="capsule" 
+               fromto="0 0 -0.08  0 0 0.08" size="0.005"
+               material="water_marker_cross" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Glow effect - extends into water -->
+         <geom name="water_glow" type="sphere" size="0.12"
+               material="water_marker_glow" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Water ripple effects around floating target -->
+         <geom name="water_ripple1" type="cylinder" size="0.15 0.001" pos="0 0 -0.01"
+               rgba="0.0 0.8 1.0 0.3" group="2" contype="0" conaffinity="0"/>
+         <geom name="water_ripple2" type="cylinder" size="0.25 0.001" pos="0 0 -0.015"
+               rgba="0.0 0.6 0.8 0.2" group="2" contype="0" conaffinity="0"/>
+         <geom name="water_ripple3" type="cylinder" size="0.35 0.001" pos="0 0 -0.02"
+               rgba="0.0 0.4 0.6 0.1" group="2" contype="0" conaffinity="0"/>
       </body>
-      <body name="obstacle 3">
-         <geom size="0.05" type="sphere" rgba="1 0.1 0.2 1" pos="0.359 -0.448 0.316" />
+      
+      <!-- ===== LIFT MARKER (Phase 2) ===== -->
+      <body name="lift_marker" pos="0.8 0.3 0.6">
+         <!-- Center sphere - much higher above water -->
+         <geom name="lift_center_sphere" type="sphere" size="0.035"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Outer ring - lift position -->
+         <geom name="lift_ring_outer" type="cylinder" size="0.08 0.005"
+               material="lift_marker_ring" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Cross bars - lift position -->
+         <geom name="lift_cross_x" type="capsule" 
+               fromto="-0.12 0 0  0.12 0 0" size="0.008"
+               material="lift_marker_cross" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_cross_y" type="capsule" 
+               fromto="0 -0.12 0  0 0.12 0" size="0.008"
+               material="lift_marker_cross" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_cross_z" type="capsule" 
+               fromto="0 0 -0.12  0 0 0.12" size="0.008"
+               material="lift_marker_cross" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Glow effect - lift position -->
+         <geom name="lift_glow" type="sphere" size="0.18"
+               material="lift_marker_glow" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Corner markers for better visibility -->
+         <geom name="lift_corner1" type="sphere" size="0.015" pos="0.06 0.06 0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_corner2" type="sphere" size="0.015" pos="-0.06 0.06 0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_corner3" type="sphere" size="0.015" pos="0.06 -0.06 0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_corner4" type="sphere" size="0.015" pos="-0.06 -0.06 0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_corner5" type="sphere" size="0.015" pos="0.06 0.06 -0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_corner6" type="sphere" size="0.015" pos="-0.06 0.06 -0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_corner7" type="sphere" size="0.015" pos="0.06 -0.06 -0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         <geom name="lift_corner8" type="sphere" size="0.015" pos="-0.06 -0.06 -0.06"
+               material="lift_marker_center" group="2" contype="0" conaffinity="0"/>
+         
+         <!-- Longer connecting line between markers to show sequence -->
+         <geom name="connection_line" type="capsule" 
+               fromto="0 0 -0.3  0 0 -0.55" size="0.004"
+               rgba="0.8 0.8 0.8 0.6" group="2" contype="0" conaffinity="0"/>
       </body>
-      <body name="obstacle 1">
-         <geom size="0.05" type="sphere" rgba="1 0.1 0.2 1" pos="-0.499 -0.396 0.372" />
-      </body>
-      <body name="obstacle 2">
-         <geom size="0.05" type="sphere" rgba="1 0.1 0.2 1" pos="-0.126 0.267 0.031" />
-      </body>
-      <body name="obstacle 3">
-         <geom size="0.05" type="sphere" rgba="1 0.1 0.2 1" pos="0.479 0.141 0.024" />
-      </body>
+      
+      <!-- ===== MISSION INDICATORS ===== -->
+      <!-- Phase indicator text would go here if MuJoCo supported text -->
+      
    </worldbody>
 </mujoco>

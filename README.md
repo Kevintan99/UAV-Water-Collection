@@ -33,13 +33,13 @@ UAV-Water-Collection/
 └─ README.md
 ```
 
-# Quick Start
-## Prerequisites
+## Quick Start
+### Prerequisites
  - [Nvidia cuda toolkit](https://developer.nvidia.com/cuda-toolkit) installed system-wide (if you want to use a local CUDA version)
  - [miniforge](https://github.com/conda-forge/miniforge/releases)
 
 
-## Setup Instructions
+### Setup Instructions
 1) Clone the repository
 ```bash
 git clone https://github.com/Kevintan99/UAV-Water-Collection.git

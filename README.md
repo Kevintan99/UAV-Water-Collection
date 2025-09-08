@@ -76,5 +76,8 @@ conda activate sbmpc
 ```
 python examples/quadrotor_comparison.py
 ```
+## License
+This project is licensed under the **BSD-3-Clause License**.  
+See the [LICENSE.txt](./LICENSE.txt) file for details.
 
 

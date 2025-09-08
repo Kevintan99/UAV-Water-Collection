@@ -77,6 +77,4 @@ conda activate sbmpc
 python examples/quadrotor_comparison.py
 ```
 
->>>>>>> 3274062 (Update readme file)
-
 

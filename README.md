@@ -1,5 +1,13 @@
 # UAV Water Collection (MuJoCo + SMBPC)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d6c283c3-d1ab-4ffd-b5e7-338d48013419"
+       alt="Quadrotor with suspended load"
+       width="480">
+</p>
+
 MuJoCo-based quadrotor simulation for water-collection maneuvers using **Sampling-Based Model Predictive Control (SBMPC)**. It is built for research with CPU execution by default and optional JAX-accelerated GPU rollouts.
+
+---
 
 ## Project Overview
 This project offers a high-fidelity simulation of a quadrotor performing water-dip/collection maneuvers under a sampling-based MPC controller. The code is structured for rapid experimentation: (i) physics come from MuJoCo,  (ii) control is modular (dynamics, costs, and samplers are pluggable), and (iii) large rollout budgets can be accelerated on GPU via JAX. It’s intended for benchmarking and ablation studies as well as iterative design like tuning costs and constraints, exploring sampler variants, and assessing stability, precision, and robustness of the UAV–load interaction.
